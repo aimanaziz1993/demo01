@@ -1,0 +1,60 @@
+{% extends 'main.html' %}
+
+
+{% block content %}
+{% include "status.html" %}
+<br>
+<div class="row">
+    <div class="col-md-5">
+        <h5>CUSTOMERS:</h5>
+        <div class="card card-body">
+            <a class="btn btn-warning" href="{% url 'application-list' %}"><strong>See All Applications</strong></a>
+            <br>
+            <table class="table table-sm">
+                <tr class="fontsty">
+                    <th></th>
+                    <th>Customer</th>
+                    <th>Phone</th>
+                </tr>
+                {% for applicant in applicants|slice:":4" %}
+                <tr>
+                    <td><a class="btn btn-sm btn-info" href="{% url 'customer-view' applicant.id %}">View</a></td>
+                    <td>{{applicant.first_name}} {{applicant.last_name}}</td>
+                    <td>{{applicant.phone}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <div class="col-md-7">
+        <H5>LAST 5 ORDERS</H5>
+        <div class="card card-body">
+            <table class="table table-sm">
+                <tr>
+                    <th>Customer</th>
+                    <th>Date Ordered</th>
+                    <th>Status</th>
+                    <th>Update</th>
+                    <th>Remove</th>
+                </tr>
+                {% for order in orders|slice:":5" %}
+                <tr>
+                    <td>{{order.applicant.first_name}} {{order.applicant.last_name}}</td>
+                    <td>{{order.date_created}}</td>
+                    <td>{{order.status}}</td>
+                    <td><a class="btn btn-info btn-sm" href="{% url 'update-order' order.id %}">Update</a></td>
+                    <td><a class="btn btn-danger btn-sm" href="{% url 'delete-order' order.id %}">Delete</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+    </div>
+</div>
+<style>
+    .fontsty{
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+</style>
+{% endblock content %}
+    
